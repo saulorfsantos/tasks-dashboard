@@ -11,7 +11,8 @@ const config: OpenNextConfig = {
       queue: 'direct',
     },
   },
-middleware: {
+  edgeExternals: ['node:crypto'],
+  middleware: {
     external: true,
     override: {
       wrapper: 'cloudflare-edge',
