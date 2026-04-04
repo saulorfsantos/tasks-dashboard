@@ -1,13 +1,6 @@
 name = "tasks-dashboard"
 compatibility_date = "2025-04-01"
 compatibility_flags = ["nodejs_compat"]
-main = ".open-next/worker.js"
-assets = { directory = ".open-next/assets", binding = "ASSETS" }
 
-[vars]
-# Non-secret variables here
-# SHEETS_API_KEY must be set via: wrangler secret put SHEETS_API_KEY
-# OR in Cloudflare Pages dashboard: Settings > Environment variables
-
-# [placement]
-# mode = "smart"
+# Required for Cloudflare Pages to recognize this as a valid Pages config
+pages_build_output_dir = ".open-next"
