@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+.open-next/
+out/
+
+# Environment
+.env
+.env.local
+.env.production
+.env.development
+
+# Misc
+.DS_Store
+*.pem
+npm-debug.log*
+pnpm-debug.log*
+
+# Vercel / Cloudflare
+.vercel/
+.wrangler/
