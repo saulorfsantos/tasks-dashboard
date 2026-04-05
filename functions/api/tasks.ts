@@ -39,9 +39,20 @@ function parseDate(dateStr: string): Date | null {
   return null
 }
 
+function normalizeStatus(raw: string): string {
+  switch (raw.trim().toLowerCase()) {
+    case 'a fazer':      return 'A Fazer'
+    case 'em andamento': return 'Em Andamento'
+    case 'pausado':      return 'Pausado'
+    case 'concluído':
+    case 'concluido':
+    case 'realizada':    return 'Concluído'
+    default:             return raw.trim()
+  }
+}
+
 function getDeadlineStatus(prazo: string, status: string): DeadlineStatus {
-  const completedStatuses = ['Concluído', 'Realizada', 'Concluida']
-  if (completedStatuses.includes(status)) return null
+  if (status === 'Concluído') return null
 
   const date = parseDate(prazo)
   if (!date) return null
@@ -106,7 +117,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
       const id         = row[idIdx]?.trim() ?? ''
       const projeto    = row[projetoIdx]?.trim() ?? ''
       const tarefa     = row[tarefaIdx]?.trim() ?? ''
-      const status     = row[statusIdx]?.trim() ?? ''
+      const status     = normalizeStatus(row[statusIdx]?.trim() ?? '')
       const prioridade = row[prioridadeIdx]?.trim() ?? ''
       const prazo      = row[prazoIdx]?.trim() ?? ''
 

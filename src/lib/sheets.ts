@@ -1,6 +1,18 @@
 import { getDeadlineStatus } from '@/lib/utils'
 import type { Task } from '@/types'
 
+function normalizeStatus(raw: string): Task['status'] {
+  switch (raw.trim().toLowerCase()) {
+    case 'a fazer':      return 'A Fazer'
+    case 'em andamento': return 'Em Andamento'
+    case 'pausado':      return 'Pausado'
+    case 'concluído':
+    case 'concluido':
+    case 'realizada':    return 'Concluído'
+    default:             return raw.trim() as Task['status']
+  }
+}
+
 const SPREADSHEET_ID = '1utkjBf2fGwuWuO9ZNmE-QCS9guKyK7i8z-50H6A0toc'
 const SHEET_NAME = 'Master'
 const RANGE = `${encodeURIComponent(SHEET_NAME)}!A:F`
@@ -49,7 +61,7 @@ export async function fetchTasks(apiKey: string): Promise<Task[]> {
       id,
       projeto,
       tarefa,
-      status: status as Task['status'],
+      status: normalizeStatus(status),
       prioridade,
       prazo,
       deadlineStatus: getDeadlineStatus(prazo, status),
