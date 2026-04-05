@@ -4,7 +4,9 @@ node_modules/
 # Build outputs
 .next/
 .open-next/
+.open-next-tmp/
 out/
+dist/
 
 # Environment
 .env
