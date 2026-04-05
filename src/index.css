@@ -305,3 +305,33 @@ body::after {
 .copy-success {
   animation: copy-flash 0.6s ease forwards;
 }
+
+/* ─── Drag & Drop ────────────────────────────────────────────────── */
+.card-dragging {
+  opacity: 0.45;
+  cursor: grabbing !important;
+  transform: rotate(1deg) scale(0.98);
+  pointer-events: none;
+}
+
+.kanban-col-drop-target {
+  background: rgba(59,130,246,0.05);
+  outline: 1px dashed rgba(59,130,246,0.4);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes card-drop {
+  from { opacity: 0; transform: translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)   scale(1); }
+}
+.card-dropped {
+  animation: card-drop 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ─── Toast ──────────────────────────────────────────────────────── */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+.toast-enter { animation: toast-in 0.25s ease both; }

@@ -5,6 +5,10 @@ import { PROJECT_COLORS, PRIORITY_CONFIG, type Task } from '@/types'
 interface Props {
   task: Task
   animIndex?: number
+  isDragging?: boolean
+  isDropped?: boolean
+  onDragStart?: (e: React.DragEvent, task: Task) => void
+  onDragEnd?: (e: React.DragEvent) => void
 }
 
 function PriorityBadge({ prioridade }: { prioridade: string }) {
@@ -119,7 +123,6 @@ function DeadlineBadge({ task }: { task: Task }) {
     )
   }
 
-  // tomorrow
   return (
     <div
       style={{
@@ -141,19 +144,38 @@ function DeadlineBadge({ task }: { task: Task }) {
   )
 }
 
-export function TaskCard({ task, animIndex = 0 }: Props) {
+export function TaskCard({
+  task,
+  animIndex = 0,
+  isDragging = false,
+  isDropped = false,
+  onDragStart,
+  onDragEnd,
+}: Props) {
   const projectColor = PROJECT_COLORS[task.projeto] ?? '#475569'
   const isOverdue = task.deadlineStatus?.type === 'overdue'
 
+  const classes = [
+    'card',
+    !isDropped && `animate-fade-up stagger-${(animIndex % 8) + 1}`,
+    isOverdue ? 'card-overdue' : '',
+    isDragging ? 'card-dragging' : '',
+    isDropped ? 'card-dropped' : '',
+  ].filter(Boolean).join(' ')
+
   return (
     <div
-      className={`card animate-fade-up stagger-${(animIndex % 8) + 1} ${isOverdue ? 'card-overdue' : ''}`}
+      className={classes}
+      draggable
+      onDragStart={onDragStart ? (e) => onDragStart(e, task) : undefined}
+      onDragEnd={onDragEnd}
       style={{
         padding: '12px 12px 12px 0',
         display: 'flex',
         gap: 0,
         position: 'relative',
         overflow: 'hidden',
+        cursor: isDragging ? 'grabbing' : 'grab',
       }}
     >
       {/* Project color bar */}
