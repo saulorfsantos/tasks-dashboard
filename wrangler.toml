@@ -2,3 +2,6 @@ name = "tasks-dashboard"
 compatibility_date = "2025-04-01"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = "dist"
+
+[vars]
+VITE_WEBHOOK_URL = "https://api.rottenyscalelab.com.br/webhook/update-task-status"
