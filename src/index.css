@@ -311,7 +311,6 @@ body::after {
   opacity: 0.45;
   cursor: grabbing !important;
   transform: rotate(1deg) scale(0.98);
-  pointer-events: none;
 }
 
 .kanban-col-drop-target {

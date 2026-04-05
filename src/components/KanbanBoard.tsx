@@ -26,11 +26,14 @@ export function KanbanBoard({ tasks, onTaskMove }: Props) {
   const overdueTasks = tasks.filter(t => t.deadlineStatus?.type === 'overdue')
 
   function handleDragStart(e: React.DragEvent, task: Task) {
-    setDraggingTaskId(task.id)
-    setDroppedTaskId(null)
     e.dataTransfer.effectAllowed = 'move'
     e.dataTransfer.setData('taskId', task.id)
     e.dataTransfer.setData('currentStatus', task.status)
+    // Defer state update — immediate re-render on dragStart breaks the native drag gesture
+    setTimeout(() => {
+      setDraggingTaskId(task.id)
+      setDroppedTaskId(null)
+    }, 0)
   }
 
   function handleDragEnd() {
